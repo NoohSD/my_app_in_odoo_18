@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="view_partner_form_etir">
+        <field name="name">tax.invoice.res.partner.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+ 
+            <xpath expr="//field[@name='property_account_payable_id']" position="after">
+                <field name="retention_account_id" />
+                <field name="advanced_account_id" />
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

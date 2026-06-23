@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!--
+            Inherit the GCC Arabic/English invoice template and inject the
+            Advance Payment and Retention Amount rows just after the
+            standard subtotal row in the totals table.
+        -->
+        <template
+            id="arabic_english_invoice_advance_retention"
+            inherit_id="l10n_gcc_invoice.arabic_english_invoice">
+
+            <!-- ── Inject rows after the o_subtotal row ────────────────────── -->
+            <xpath expr="//tr[hasclass('o_subtotal')]" position="after">
+
+                <!-- Advance Adjusted row -->
+                <tr t-if="o.advance_amt and o.advance_amt > 0">
+                    <td class="text-end" style="width:50%;">
+                        <span
+                            t-field="o.advance_amt"
+                            t-options='{
+                                "widget": "monetary",
+                                "display_currency": o.currency_id
+                            }'/>
+                    </td>
+                    <td class="text-end" style="width:50%;">
+                        <strong>Advance Amount</strong>
+                    </td>
+                </tr>
+
+                <!-- Discount row -->
+                <tr t-if="o.total_disc and o.total_disc > 0">
+                    <td class="text-end">
+                        <span
+                            t-field="o.total_disc"
+                            t-options='{
+                                "widget": "monetary",
+                                "display_currency": o.currency_id
+                            }'/>
+                    </td>
+                    <td class="text-end">
+                        <strong>Discount</strong>
+                    </td>
+                </tr>
+
+                <!-- Net Amount Before VAT row -->
+                <tr t-if="o.net_amt_before_tax">
+                    <td class="text-end">
+                        <span
+                            t-field="o.net_amt_before_tax"
+                            t-options='{
+                                "widget": "monetary",
+                                "display_currency": o.currency_id
+                            }'/>
+                    </td>
+                    <td class="text-end">
+                        <strong>Net Amount Before VAT</strong>
+                    </td>
+                </tr>
+
+                <!-- VAT 15% row (replaces or supplements standard tax row) -->
+                <tr t-if="o.vat_15">
+                    <td class="text-end">
+                        <span
+                            t-field="o.vat_15"
+                            t-options='{
+                                "widget": "monetary",
+                                "display_currency": o.currency_id
+                            }'/>
+                    </td>
+                    <td class="text-end">
+                        <strong>VAT 15.00%</strong>
+                    </td>
+                </tr>
+
+                <!-- Net Total Including VAT row -->
+                <tr t-if="o.net_including_vat">
+                    <td class="text-end">
+                        <span
+                            t-field="o.net_including_vat"
+                            t-options='{
+                                "widget": "monetary",
+                                "display_currency": o.currency_id
+                            }'/>
+                    </td>
+                    <td class="text-end">
+                        <strong>Net Total Including VAT</strong>
+                    </td>
+                </tr>
+
+                <!-- Retention Amount row -->
+                <tr t-if="o.retention_amt and o.retention_amt > 0">
+                    <td class="text-end">
+                        <span
+                            t-field="o.retention_amt"
+                            t-options='{
+                                "widget": "monetary",
+                                "display_currency": o.currency_id
+                            }'/>
+                    </td>
+                    <td class="text-end">
+                        <strong>Retention Amount</strong>
+                    </td>
+                </tr>
+
+                <!-- Due Balance row -->
+                <tr t-if="o.due_balance">
+                    <td class="text-end fw-bold">
+                        <span
+                            t-field="o.due_balance"
+                            t-options='{
+                                "widget": "monetary",
+                                "display_currency": o.currency_id
+                            }'/>
+                    </td>
+                    <td class="text-end fw-bold">
+                        Due Balance
+                    </td>
+                </tr>
+
+            </xpath>
+        </template>
+
+    </data>
+</odoo>

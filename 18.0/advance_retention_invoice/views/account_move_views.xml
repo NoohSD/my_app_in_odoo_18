@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_move_form_advance_retention" model="ir.ui.view">
+            <field name="name">account.move.form.advance.retention</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+
+                <!-- Add fields in Other Info tab -->
+                <xpath expr="//notebook" position="before">
+                    <group 
+                           invisible="move_type not in ['out_invoice','out_refund','in_invoice','in_refund']">
+
+                        <field name="advance_amt"
+                               string="Advance Amount"
+                               widget="monetary"
+                               options="{'currency_field': 'currency_id'}"/>
+
+                        <field name="retention_amt"
+                               string="Retention Amount"
+                               widget="monetary"
+                               options="{'currency_field': 'currency_id'}"/>
+
+                    </group>
+                </xpath>
+
+                <!-- Summary before totals -->
+                <xpath expr="//field[@name='tax_totals']" position="before">
+                    <div class="o_advance_retention_summary"
+                         invisible="move_type not in ['out_invoice','out_refund','in_invoice','in_refund']">
+
+                        <table class="table table-sm">
+
+                            <tr invisible="advance_amt == 0">
+                                <td class="text-muted">
+                                    Advance Adjusted
+                                </td>
+                                <td class="text-end">
+                                    <field name="advance_amt"
+                                           widget="monetary"
+                                           options="{'currency_field': 'currency_id'}"
+                                           readonly="1"/>
+                                </td>
+                            </tr>
+
+                            <tr invisible="total_disc == 0">
+                                <td class="text-muted">Discount</td>
+                                <td class="text-end">
+                                    <field name="total_disc"
+                                           widget="monetary"
+                                           options="{'currency_field': 'currency_id'}"
+                                           readonly="1"/>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="text-muted">Net Before VAT</td>
+                                <td class="text-end">
+                                    <field name="net_amt_before_tax"
+                                           widget="monetary"
+                                           options="{'currency_field': 'currency_id'}"
+                                           readonly="1"/>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="text-muted">VAT 15%</td>
+                                <td class="text-end">
+                                    <field name="vat_15"
+                                           widget="monetary"
+                                           options="{'currency_field': 'currency_id'}"
+                                           readonly="1"/>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="text-muted">Net Including VAT</td>
+                                <td class="text-end">
+                                    <field name="net_including_vat"
+                                           widget="monetary"
+                                           options="{'currency_field': 'currency_id'}"
+                                           readonly="1"/>
+                                </td>
+                            </tr>
+
+                            <tr invisible="retention_amt == 0">
+                                <td class="text-muted">Retention</td>
+                                <td class="text-end">
+                                    <field name="retention_amt"
+                                           widget="monetary"
+                                           options="{'currency_field': 'currency_id'}"
+                                           readonly="1"/>
+                                </td>
+                            </tr>
+
+                            <tr class="fw-bold">
+                                <td>Due Balance</td>
+                                <td class="text-end">
+                                    <field name="due_balance"
+                                           widget="monetary"
+                                           options="{'currency_field': 'currency_id'}"
+                                           readonly="1"/>
+                                </td>
+                            </tr>
+
+                        </table>
+
+                    </div>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>
