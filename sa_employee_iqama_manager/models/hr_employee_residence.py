@@ -165,14 +165,14 @@ class HrEmployeeResidence(models.Model):
 
             if new_state == 'expiring_soon' and not rec.expiring_email_sent:
                 sent = rec._send_notification_email(
-                    'employee_documents.email_template_residence_expiring_soon'
+                    'sa_employee_iqama_manager.email_template_residence_expiring_soon'
                 )
                 if sent:
                     rec.write({'expiring_email_sent': True})
 
             if new_state == 'expired' and not rec.expired_email_sent:
                 sent = rec._send_notification_email(
-                    'employee_documents.email_template_residence_expired'
+                    'sa_employee_iqama_manager.email_template_residence_expired'
                 )
                 if sent:
                     rec.write({'expired_email_sent': True})
